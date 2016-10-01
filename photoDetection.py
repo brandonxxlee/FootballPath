@@ -1,3 +1,4 @@
+import cv2
 import scipy.misc as sp
 
 IMAGE_FILE_PATH = './images/'
@@ -19,3 +20,6 @@ im2 = sp.imresize(im, 5)
 
 sp.toimage(im2, cmin=0.0, cmax=...).save("next.jpg")
 
+hog = cv2.HOGDescriptor()
+h = hog.compute(im)
+print(h)
