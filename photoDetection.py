@@ -31,8 +31,15 @@ def write_image(image_array, file_name):
     sp.toimage(image_array, cmin=0.0, cmax=...).save(IMAGE_FILE_PATH + file_name)
 
 
-def color_difference(color1, color2):
-    return sum([(color1[primary] - color2[primary]) ** 2 for primary in range(3)])
+def weighted_color_difference(color1, color2, weights=(1, 1, 1)):
+    """
+    Return the squared difference weighted by WEIGHTS
+    :param color1: first color
+    :param color2: second color
+    :param weights: weights on r, g, b
+    :return: weighted square difference in r, g, and b
+    """
+    return sum([weights[primary] * (color1[primary] - color2[primary]) ** 2 for primary in range(3)])
 
 
 def k_means_teams(image_array, num_iter=100):
@@ -48,13 +55,24 @@ def k_means_teams(image_array, num_iter=100):
     attribute_pixels = [[], [], []]
 
     for _ in range(num_iter):
+        attribute_pixels = [[], [], []]
+        new_centers = np.array([[0] * 3] * 3)
         for i in range(image_array.shape[0]):
             for j in range(image_array.shape[1]):
                 current_color = pixel_at_position(image_array, i, j)
-                closest_index = min([0, 1, 2],
-                                    key=lambda index: color_difference(current_color, center_colors[index]))
+                closest_index = min(range(3),
+                                    key=lambda index: weighted_color_difference(current_color, center_colors[index],
+                                                                                weights=(1, 3, 1)))
                 attribute_pixels[closest_index].append((i, j))
-        print(_)
+                for rgb_index in range(3):
+                    new_centers[closest_index][rgb_index] += current_color[rgb_index]
+
+        center_colors = []
+        for center in range(3):
+            if len(attribute_pixels[center]):
+                center_colors.append(new_centers[center] / len(attribute_pixels[center]))
+            else:
+                center_colors.append(center_colors[center])
 
     return center_colors, attribute_pixels
 
