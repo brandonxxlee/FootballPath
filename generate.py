@@ -5,20 +5,24 @@ import scipy.misc as sp
 import plotter
 from PIL import Image
 
-im = photoDetection.read_in_image("water.jpg")
-im = sp.imresize(im, 10)
-_, im2 = photoDetection.k_means_teams(im, 10)
+water = "water.jpg"
+pats = "pats.jpg"
+resizeFactor = 10
 
-rects = rectangle_finder.find_rectangles(im2)
-image = Image.open("images/water.jpg")
+im = photoDetection.read_in_image(pats)
+im = sp.imresize(im, resizeFactor)
+center_colors, im2 = photoDetection.k_means_teams(im, 10)
+rects = rectangle_finder.find_rectangles(center_colors, im2, im)
+image = Image.open("images/" + pats)
+rects = rectangle_finder.scaleUp(rects, resizeFactor)
 images_with_rectangles = rectangle_finder.draw_rectangles(rects, image)
 
 pos = []
 for i in im2:
-    plotter.plot(i)
+    # plotter.plot(i)
     pos.append(rectangle_finder.find_rectangles_for_given_locations(i))
-for i in pos:
-    images_with_rectangles = rectangle_finder.draw_rectangles(i, images_with_rectangles)
+pos = rectangle_finder.scaleUp(pos, resizeFactor)
+images_with_rectangles = rectangle_finder.draw_rectangles(pos, images_with_rectangles)
 
 meanShift.save_image(images_with_rectangles)
 
