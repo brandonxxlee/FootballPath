@@ -1,6 +1,12 @@
 import meanShift
 from PIL import Image, ImageDraw
 import numpy as np
+from sklearn.cluster import KMeans
+
+
+def runKMeans(X):
+    kmeans = KMeans().fit(X)
+    return kmeans.labels_
 
 def find_rectangles(labeled_locations):
     '''
@@ -12,7 +18,8 @@ def find_rectangles(labeled_locations):
     labeled_locations = remove_green(labeled_locations)
     ret = []
     for locations in labeled_locations:
-        labels = meanShift.runMeanShift(locations)
+        labels = runKMeans(locations)
+        # labels = meanShift.runMeanShift(locations)
         classRectangles = find_rectangles_for_given_class(locations, labels)
         ret.extend(classRectangles)
     return ret
