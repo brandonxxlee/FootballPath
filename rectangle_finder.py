@@ -1,6 +1,6 @@
 import meanShift
 from PIL import Image, ImageDraw
-
+import numpy as np
 
 def find_rectangles(labeled_locations):
     '''
@@ -26,7 +26,7 @@ def find_rectangles_for_given_class(locations, labels):
     :return: list of rectangles
     '''
     ret = []
-    locations_for_labels = [[]] * max(labels) # all the locations for a given label
+    locations_for_labels = [[]] * (1 + max(labels)) # all the locations for a given label
     for i in range(len(locations)):
         label = labels[i]
         location = locations[i]
@@ -81,3 +81,17 @@ def draw_rectangles(rectangle_array, image):
     for rect in rectangle_array:
         ret = draw_rectangle(rect, ret)
     return ret
+
+# def createImageObject(im):
+#     m, n, k = im.shape
+#     image = Image.new('RGB', (m, n))
+#     image.putdata(flatten(im))
+#     return image
+#
+# def flatten(im):
+#     m, n, k = im.shape
+#     ret = []
+#     for i in range(m):
+#         for j in range(n):
+#             ret.append(im[i][j])
+#     return np.array(ret)
