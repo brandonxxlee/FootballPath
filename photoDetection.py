@@ -4,25 +4,11 @@ import numpy as np
 
 IMAGE_FILE_PATH = './images/'
 
-
 def pixel_at_position(picture, row, col):
     return picture[row][col]
-<<<<<<< HEAD
-imageName = "images/footballPlayer.jpg"
-im = sp.imread(imageName, flatten=True)
-=======
->>>>>>> origin/master
 
-print (im)
-print (type(im))	
-
-<<<<<<< HEAD
-im2 = sp.imfilter(im, "find_edges")
-sp.toimage(im2, cmin=0.0, cmax=...).save("next.jpg")
-=======
 def read_in_image(file_name):
     return sp.imread(IMAGE_FILE_PATH + file_name)
-
 
 def manipulate_img():
     image_name = "gradientBlack.jpg"
@@ -31,7 +17,6 @@ def manipulate_img():
     # Do stuff to im
     im2 = sp.imresize(im, 5)
     write_image(im2, "next.jpg")
-
 
 def write_image(image_array, file_name):
     """
@@ -42,7 +27,6 @@ def write_image(image_array, file_name):
     """
     sp.toimage(image_array, cmin=0.0, cmax=...).save(IMAGE_FILE_PATH + file_name)
 
-
 def weighted_color_difference(color1, color2, weights=(1, 1, 1)):
     """
     Return the squared difference weighted by WEIGHTS
@@ -52,7 +36,6 @@ def weighted_color_difference(color1, color2, weights=(1, 1, 1)):
     :return: weighted square difference in r, g, and b
     """
     return sum([weights[primary] * (color1[primary] - color2[primary]) ** 2 for primary in range(3)])
-
 
 def k_means_teams(image_array, num_iter=100):
     """
@@ -90,8 +73,6 @@ def k_means_teams(image_array, num_iter=100):
 
     return center_colors, attribute_pixels
 
->>>>>>> origin/master
-
 def collapse_image(image_array):
     """
     Collapses the image into three colors representing the field and two teams
@@ -105,7 +86,4 @@ def collapse_image(image_array):
             row, col = pixel_position
             modified_image_array[row][col] = list(center_colors[color])
 
-<<<<<<< HEAD
-=======
     write_image(modified_image_array, 'k_means_compression.jpg')
->>>>>>> origin/master
