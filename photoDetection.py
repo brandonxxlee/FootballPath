@@ -1,3 +1,4 @@
+import cv2
 import scipy.misc as sp
 import numpy as np
 
