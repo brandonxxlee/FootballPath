@@ -7,19 +7,22 @@ from PIL import Image
 
 water = "water.jpg"
 pats = "pats.jpg"
+fb = "footballPlayer.jpg"
+img = water
+
 resizeFactor = 10
 
-im = photoDetection.read_in_image(pats)
+im = photoDetection.read_in_image(img)
 im = sp.imresize(im, resizeFactor)
 center_colors, im2 = photoDetection.k_means_teams(im, 10)
 rects = rectangle_finder.find_rectangles(center_colors, im2, im)
-image = Image.open("images/" + pats)
+image = Image.open("images/" + img)
 rects = rectangle_finder.scaleUp(rects, resizeFactor)
 images_with_rectangles = rectangle_finder.draw_rectangles(rects, image)
 
 pos = []
 for i in im2:
-    # plotter.plot(i)
+    #plotter.plot(i)
     pos.append(rectangle_finder.find_rectangles_for_given_locations(i))
 pos = rectangle_finder.scaleUp(pos, resizeFactor)
 images_with_rectangles = rectangle_finder.draw_rectangles(pos, images_with_rectangles)
