@@ -59,10 +59,13 @@ def find_rectangles_for_given_locations(locations):
     if len(locations) == 0 or len(locations[0]) == 0:
         return [(0,0),(0,0)]
     x, y = convert_tuple_list_to_lists(locations)
-    topLeftX = min(x)
-    topLeftY = max(y)
-    bottomRightX = max(x)
-    bottomRightY = min(y)
+    topLeftX, bottomRightX = np.percentile(x, [10,90])
+    bottomRightY, topLeftY = np.percentile(y, [10,90])
+
+    # topLeftX = min(x)
+    # topLeftY = max(y)
+    # bottomRightX = max(x)
+    # bottomRightY = min(y)
     return [(topLeftX, topLeftY), (bottomRightX, bottomRightY)]
 
 def convert_tuple_list_to_lists(arr):
