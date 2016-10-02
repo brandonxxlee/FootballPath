@@ -46,7 +46,7 @@ def weighted_color_difference(color1, color2, weights=(1, 1, 1)):
 def k_means_teams(image_array, num_iter=100):
     """
     Runs k-means on the image_array with 3 clusters defining the
-    field and the two teams on the field.
+    field and the two teams on the field. Removes all white pixels beforehand
     :param image_array: ndarray of the field
     :param num_iter: number of iterations to run k_means
     :return: list of cluster centers and pixels attributed with them
