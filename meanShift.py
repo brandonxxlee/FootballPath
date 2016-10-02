@@ -75,15 +75,17 @@ def freqLabel(labels):
         a[i] += 1
     return a
 
-image_name = IMAGE_FILE_PATH +  "pats.jpg"
-im = read_in_image(image_name)
-#im = sp.imresize(im, 50)
-m, n, k = im.shape
-# imWithHue = convertMatrixRGBToHue(im)
-X = flattenMatrix(im)
-labels = runMeanShift(X)
-retPicture = buildShowPicture(labels)
-print(retPicture.shape)
-sp.toimage(retPicture).save("compressed.jpg")
-sp.toimage(im).save("fff.jpg")
+def execute():
+    image_name = IMAGE_FILE_PATH +  "pats.jpg"
+    im = read_in_image(image_name)
+    #im = sp.imresize(im, 50)
+    m, n, k = im.shape
+    # imWithHue = convertMatrixRGBToHue(im)
+    X = flattenMatrix(im)
+    labels = runMeanShift(X)
+    retPicture = buildShowPicture(labels)
+    print(retPicture.shape)
+    sp.toimage(im).save("fff.jpg")
 
+def save_image(retPicture):
+    sp.toimage(retPicture).save("compressed.jpg")

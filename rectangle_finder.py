@@ -1,4 +1,6 @@
 import meanShift
+from PIL import Image, ImageDraw
+
 
 def find_rectangles(labeled_locations):
     '''
@@ -61,3 +63,21 @@ def remove_green(labeled_locations):
     green_space = max(labeled_locations, key=lambda x: len(x))
     labeled_locations.remove(green_space)
     return labeled_locations
+
+def draw_rectangle(rect, image):
+    '''
+    draws onto an Image object
+    :param topLeft: tuple of corner
+    :param bottomRight: tuple or corner
+    :param image: to draw on
+    :return:
+    '''
+    draw = ImageDraw.Draw(image)
+    draw.line(rect, fill=128, width=3)
+    return image
+
+def draw_rectangles(rectangle_array, image):
+    ret = image
+    for rect in rectangle_array:
+        ret = draw_rectangle(rect, ret)
+    return ret
