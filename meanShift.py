@@ -45,10 +45,10 @@ def flattenMatrix(A):
     return np.array(ret)
 
 def runMeanShift(X):
-    ms = MeanShift()
+    ms = MeanShift(bin_seeding=True, min_bin_freq = 100)
     ft = ms.fit(X)
     labels = ft.labels_
-    cluster_centers = ms.cluster_centers_  # why are there so many centers?
+    cluster_centers = ft.cluster_centers_      
     return labels
 
 
@@ -64,10 +64,20 @@ def buildShowPicture(labels):
             toShow[i][j][2] = labels[i * n + j] * maxVal * num_clusters
     return toShow
 
+def freqLabel(labels):
+    """
+    Finds the frequency of every label in input array
+    :param labels: classification for all pixels
+    :return: array of frequency of labels
+    """
+    a = [0] * max(labels)
+    for i in labels:
+        a[i] += 1
+    return a
 
-image_name = IMAGE_FILE_PATH +  "footballPlayer.jpg"
+image_name = IMAGE_FILE_PATH +  "pats.jpg"
 im = read_in_image(image_name)
-im = sp.imresize(im, 25)
+#im = sp.imresize(im, 50)
 m, n, k = im.shape
 # imWithHue = convertMatrixRGBToHue(im)
 X = flattenMatrix(im)
