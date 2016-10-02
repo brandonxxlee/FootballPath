@@ -67,12 +67,14 @@ def k_means_teams(image_array, num_iter=100):
                 for rgb_index in range(3):
                     new_centers[closest_index][rgb_index] += current_color[rgb_index]
 
-        center_colors = []
+        new_center_colors = []
         for center in range(3):
             if len(attribute_pixels[center]):
-                center_colors.append(new_centers[center] / len(attribute_pixels[center]))
+                new_center_colors.append(new_centers[center] / len(attribute_pixels[center]))
             else:
-                center_colors.append(center_colors[center])
+                new_center_colors.append(center_colors[center])
+
+        center_colors = new_center_colors
 
     return center_colors, attribute_pixels
 
