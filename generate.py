@@ -8,7 +8,7 @@ from PIL import Image
 water = "water.jpg"
 pats = "pats.jpg"
 fb = "footballPlayer.jpg"
-img = water
+img = pats
 
 resizeFactor = 10
 
