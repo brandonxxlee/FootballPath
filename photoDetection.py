@@ -1,4 +1,4 @@
-import cv2
+# import cv2
 import scipy.misc as sp
 import numpy as np
 
@@ -84,7 +84,7 @@ def collapse_image(image_array):
     """
     Collapses the image into three colors representing the field and two teams
     :param image_array: ndarray of the field
-    :return: None
+    :return: collapsed image
     """
     modified_image_array = np.copy(image_array)
     center_colors, attribute_pixels = k_means_teams(image_array, num_iter=10)
@@ -94,3 +94,18 @@ def collapse_image(image_array):
             modified_image_array[row][col] = list(center_colors[color])
 
     write_image(modified_image_array, 'k_means_compression.jpg')
+    return modified_image_array
+
+
+def edge_detection(image_array):
+    """
+    Edge detects football players
+    :param image_array: simple image array after k means simplification
+    :return: None
+    """
+    im2 = sp.imfilter(image_array, "find_edges")
+    sp.toimage(im2, cmin=0.0, cmax=...).save("edge_detected_image.jpg")
+
+if __name__ == '__main__':
+    collapsed_img = collapse_image(read_in_image('pats.jpg'))
+    edge_detection(collapsed_img)
