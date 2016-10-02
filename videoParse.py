@@ -54,7 +54,7 @@ def main():
 			roi = orig[t1[1]:br[1], t1[0]:br[0]]
 			roi = cv2.cvtColor(coi, cv2.COLOR_BGR2HSV)
 
-			roiHist = cv2.calcHist([roi], [0], None, [45], [0, 180])
+			roiHist = cv2.calcHist([roi], [0], None, [16], [0, 180])
 			roiHist = cv2.normalize(roiHist, roiHist, 0, 255, cv2.NORM_MINMAX)
 			roiBox = (tl[0], tl[1], br[0], br[1])
 
