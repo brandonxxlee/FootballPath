@@ -2,14 +2,16 @@ import meanShift
 from PIL import Image, ImageDraw
 import numpy as np
 
-def find_rectangles(labeled_locations):
+def find_rectangles(center_colors, labeled_locations):
     '''
     Finds the rectangles that bounds the clusters of data
+    :param center_colors: colors of labels
     :param labeled_locations: ndarray of ndarrays of locations such that all locations of a subarray has a certain classification
      e.g. [ [ (1,2), (4,5) ], [ (1,1), (5,5)]] where A[0] is class 0 and A[1] is class 1
     :return: list of rectangles
     '''
     labeled_locations = remove_green(labeled_locations)
+    labeled_locations = remove_white(center_colors, labeled_locations)
     ret = []
     for locations in labeled_locations:
         labels = meanShift.runMeanShift(locations)
@@ -62,6 +64,21 @@ def remove_green(labeled_locations):
     '''
     green_space = max(labeled_locations, key=lambda x: len(x))
     labeled_locations.remove(green_space)
+    return labeled_locations
+
+
+def remove_white(center_colors, labeled_locations):
+    """
+    Removes the label associated with white color if exists
+    :param labeled_locations:
+    :return: labeled locations without white label
+    """
+    THRESHOLD = 160
+    for i in range(len(center_colors)):
+        color = center_colors[i]
+        if color[0] > THRESHOLD and color[1] > THRESHOLD and color[2] > THRESHOLD:
+            labeled_locations.remove(labeled_locations[i])
+
     return labeled_locations
 
 def draw_rectangle(rect, image):

@@ -76,6 +76,7 @@ def k_means_teams(image_array, num_iter=100):
                 new_center_colors.append(center_colors[center])
 
         center_colors = new_center_colors
+        print(_)
 
     return center_colors, attribute_pixels
 
@@ -97,6 +98,31 @@ def collapse_image(image_array):
     return modified_image_array
 
 
+def collapse_image_objects(image_array):
+    """
+    Collapses the image by white listing all of the non player pixels
+    :param image_array: input image
+    :return: collapsed image
+    """
+    THRESHOLD = 160
+    modified_image_array = np.copy(image_array)
+    center_colors, attribute_pixels = k_means_teams(image_array, num_iter=10)
+    print(center_colors)
+    max_color_index = max(range(3), key=lambda i: len(attribute_pixels[i]))
+    for color in range(len(center_colors)):
+        color_to_set = center_colors[color]
+        if color == max_color_index:
+            color_to_set = [255, 255, 255]
+        elif color_to_set[0] > THRESHOLD and color_to_set[1] > THRESHOLD and color_to_set[2] > THRESHOLD:
+            color_to_set = [255, 255, 255]
+        for pixel_position in attribute_pixels[color]:
+            row, col = pixel_position
+            modified_image_array[row][col] = color_to_set
+
+    write_image(modified_image_array, 'k_means_super_compressed.jpg')
+    return modified_image_array
+
+
 def edge_detection(image_array):
     """
     Edge detects football players
@@ -107,5 +133,4 @@ def edge_detection(image_array):
     sp.toimage(im2, cmin=0.0, cmax=...).save("edge_detected_image.jpg")
 
 if __name__ == '__main__':
-    collapsed_img = collapse_image(read_in_image('pats.jpg'))
-    edge_detection(collapsed_img)
+    collapse_image_objects(read_in_image('pats.jpg'))
