@@ -1,7 +1,7 @@
 import photoDetection
 import meanShift
 import rectangle_finder
-import scipy.misc as sp
+# import scipy.misc as sp
 import plotter
 from PIL import Image
 
@@ -12,7 +12,7 @@ def execute(im, resizeFactor = 100):
     :param resizeFactor: percent of original image
     :return:
     '''
-    im = sp.imresize(im, resizeFactor)
+    # im = sp.imresize(im, resizeFactor)
     center_colors, im2 = photoDetection.k_means_teams(im, 10)
     rects = rectangle_finder.find_rectangles(center_colors, im2, im)
     rects = rectangle_finder.scaleUp(rects, resizeFactor)

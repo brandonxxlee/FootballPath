@@ -42,8 +42,9 @@ def main():
 			print("TEST")
 			orig = frame.copy()
 
-			tl = [50,50] #TODO: Top Left of rectangle
-			br = [100,500] #TODO: Bottom Right of rectangle
+            rect = BrandonRunner.execute(orig)
+            tl = list(rect[0])
+            br = list(rect[1])
 
 			roi = orig[tl[1]:br[1], tl[0]:br[0]]
 			roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
