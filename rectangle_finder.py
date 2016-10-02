@@ -40,7 +40,9 @@ def find_rectangles_for_given_class(locations, labels):
     :return: list of rectangles
     '''
     ret = []
-    locations_for_labels = [[]] * (1 + max(labels)) # all the locations for a given label
+    locations_for_labels = []
+    for i in range(1 + max(labels)):
+        locations_for_labels.append([])
     for i in range(len(locations)):
         label = labels[i]
         location = locations[i]

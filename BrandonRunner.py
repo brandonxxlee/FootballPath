@@ -17,11 +17,11 @@ def execute(im, resizeFactor = 100):
     rects = rectangle_finder.find_rectangles(center_colors, im2, im)
     rects = rectangle_finder.scaleUp(rects, resizeFactor)
 
-    pos = []
-    for i in im2:
-        # plotter.plot(i)
-        pos.append(rectangle_finder.find_rectangles_for_given_locations(i))
-    pos = rectangle_finder.scaleUp(pos, resizeFactor)
+    # pos = []
+    # for i in im2:
+    #     # plotter.plot(i)
+    #     pos.append(rectangle_finder.find_rectangles_for_given_locations(i))
+    # pos = rectangle_finder.scaleUp(pos, resizeFactor)
     # rects.extend(pos)
-    rects.sort(key=lambda x: sum([i*i for i in x]))
-    return rects[1]
+    rects.sort(key=lambda x: sum([ (rect[0][1] - rect[1][1])**2 + (rect[0][1] - rect[1][1])**2  for rect in rects]))
+    return rects[-1]
