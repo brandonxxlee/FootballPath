@@ -64,7 +64,7 @@ def k_means_teams(image_array, num_iter=100):
                 closest_index = min(range(3),
                                     key=lambda index: weighted_color_difference(current_color, center_colors[index],
                                                                                 weights=(1, 3, 1)))
-                attribute_pixels[closest_index].append((i, j))
+                attribute_pixels[closest_index].append([i, j])
                 for rgb_index in range(3):
                     new_centers[closest_index][rgb_index] += current_color[rgb_index]
 
